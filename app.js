@@ -13,6 +13,7 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
+var response;
 
 app.configure(function() {
     app.use(express.cookieParser('keyboard cat'));
@@ -56,7 +57,7 @@ app.post('/voiceresponse', function(req, res) {
     } else {
         accepted = false;
     }
-    res.redirect('/accepted');
+    response.redirect('/accepted');
 });
 
 
@@ -69,6 +70,7 @@ app.post('/order', function(req, res) {
         if(err) {
             throw err;
         }
+        response = res;
         //console.log(responseData);
     });
 });
