@@ -49,6 +49,8 @@ app.post('/twiml.xml', function(req, res) {
 });
 
 app.post('/voiceresponse', function(req, res) {
+    console.log('voice response');
+    console.log(res);
     /*console.log('voice response')
     console.log(req.body);
     var accepted;
@@ -59,12 +61,13 @@ app.post('/voiceresponse', function(req, res) {
     }
     response.redirect('/accepted');
     */
-    console.log('responding to hallo');
-    res.redirect('http://thecabfinder.herokuapp.com/accept');
+    //res.redirect('http://thecabfinder.herokuapp.com/accept');
 });
 
 
 app.post('/order', function(req, res) {
+    console.log('/order')
+    console.log(res);
     client.makeCall({
         to: '+447731768522',
         from: '+441733514667',
