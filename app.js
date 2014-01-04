@@ -19,11 +19,11 @@ app.configure(function() {
     app.use(express.session({cookie : {maxAge: 60000}}));
     app.use(flash());
 });
-
+console.log('making call');
 client.makeCall({
     to: '+447731768522',
     from: '+441733514667',
-    url: '/twiml.xml'
+    url: 'http://thecabfinder.herokuapp.com/twiml.xml'
 }, function(err, responseData) {
     if(err) {
         console.log(err)
