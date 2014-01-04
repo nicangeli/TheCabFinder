@@ -49,7 +49,7 @@ app.post('/twiml.xml', function(req, res) {
 });
 
 app.post('/voiceresponse', function(req, res) {
-    console.log('voice response')
+    /*console.log('voice response')
     console.log(req.body);
     var accepted;
     if(req.body.Digits === '1') {
@@ -58,6 +58,9 @@ app.post('/voiceresponse', function(req, res) {
         accepted = false;
     }
     response.redirect('/accepted');
+    */
+    console.log('responding to hallo');
+    res.redirect('/hallo');
 });
 
 
