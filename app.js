@@ -47,6 +47,18 @@ app.post('/twiml.xml', function(req, res) {
     res.send(xml);
 });
 
+app.post('/voiceresponse', function(request, response) {
+    console.log('voice response')
+    console.log(req.body);
+    var accepted;
+    if(request.body.Digits === '1') {
+        accepted = true;
+    } else {
+        accepted = false;
+    }
+    res.redirect('/accepted');
+});
+
 
 app.post('/order', function(req, res) {
     client.makeCall({
@@ -57,17 +69,6 @@ app.post('/order', function(req, res) {
         if(err) {
             throw err;
         }
-        app.post('/voiceresponse', function(request, response) {
-            console.log('voice response')
-            console.log(req.body);
-            var accepted;
-            if(request.body.Digits === '1') {
-                accepted = true;
-            } else {
-                accepted = false;
-            }
-            res.redirect('/accepted');
-        });
         //console.log(responseData);
     });
 });
