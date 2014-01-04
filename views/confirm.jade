@@ -1,0 +1,8 @@
+extends layout
+block content
+    .row
+        h1 Confirmation Page
+        p You are being picked up from #{order.details.pickup.english}
+        p You are being dropped off at #{order.details.dropoff.english}
+        p YOu are being transported by taxi co #{order.taxi}
+

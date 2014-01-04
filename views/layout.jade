@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='http://cdn.jsdelivr.net/foundation/5.0.2/css/foundation.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(type="text/javascript", src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAay47LWMc02QL_67sDK298iaQKa5ePRj4&sensor=true")
+        script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+    body
+        nav.top-bar(data-topbar='data-topbar')
+              ul.title-area
+                li.name
+                  h1
+                    a(href='/') The Cab Finder
+              section.top-bar-section
+                // Right Nav Section
+                ul.right
+                  li
+                    a(href='/signin') Company Sign In
+                  li
+                    a(href='/about') About
+    block content

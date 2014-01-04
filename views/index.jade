@@ -1,0 +1,33 @@
+extends layout
+block content
+    .row
+        .small-12.large-12.colums
+            h1 Find and Book Taxis Accross the Entire of the UK online for Free!
+    .row.map-row
+        .small-12.large-6.map-row.columns
+            #map-canvas
+        .small-6.large-6.columns
+            form#pickupForm
+                .row
+                    .large-10.columns
+                        label Pick Up Location
+                        input#pickupAddress(type="text", placeholder="Postcode, Streetname, Address")
+                        a#findPickup.button.large(href="#") Find
+            .row
+                .large-10.columns
+                    a#showDropoff.button.large(href="#") Next
+            form#dropOffForm
+                .row
+                    .large-10.column
+                        label Drop off Location
+                        input#dropoffAddress(type="text", placeholder="Postcode, Streetname, Address")
+                        a#findDropoff.button.large(href="#") Find
+
+
+
+            .row
+                .large-10.columns
+                    a#showTaxis.button.large(href="/showTaxis") Next
+            
+
+    script(src="/javascripts/maps.js")

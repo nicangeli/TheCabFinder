@@ -1,0 +1,38 @@
+extends layout
+block content
+    input(type="hidden", name="pickupLat", value="#{order.details.pickup.lat}")
+    input(type="hidden", name="pickupLng", value="#{order.details.pickup.lng}")
+    input(type="hidden", name="pickupEnglish", value="#{order.details.pickup.english}")
+    input(type="hidden", name="dropoffLat", value="#{order.details.dropoff.lat}")
+    input(type="hidden", name="dropoffLng", value="#{order.details.dropoff.lng}")
+    input(type="hidden", name="dropoffEnglish", value="#{order.details.dropoff.english}")
+
+
+    .row
+        -if(order.taxis.length == 0) {
+                    .alert-box(data-alert) 
+                        p There are no taxis in this area. Sorry.
+                        a.close(href="#") &times;
+        - } else {
+        .large-12.columns
+            h1 Results
+        .large-10.columns
+            p The following taxis operate in your area and can pick you up from #{order.details.pickup.english}
+        .large-12.columns
+            table
+                thead
+                    tr
+                        th(width="400") Name
+                        th(width="400") Number
+                        th(width="400") Book
+                tbody
+                -for(var i = 0; i < order.taxis.length; i++) {
+                    tr
+                        td #{order.taxis[i].name}
+                        td #{order.taxis[i].number}
+                        td 
+                            a.button.bookButton(data-id="#{order.taxis[i].id}") Book
+                -}
+                
+        -}
+    script(type="text/javascript", src="javascripts/book.js")
