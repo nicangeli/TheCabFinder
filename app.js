@@ -14,6 +14,8 @@ var express = require('express')
   , client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 
+var s;
+
 app.configure(function() {
     app.use(express.cookieParser('keyboard cat'));
     app.use(express.session({cookie : {maxAge: 60000}}));
@@ -56,11 +58,13 @@ app.post('/voiceresponse', function(req, res) {
     } else {
         accepted = false;
     }
-    socket.emit('response', {accepted: accepted});
+
+    s.emit('response', {accepted: accepted});
 });
 
 io.sockets.on('connection', function (socket) {
   //socket.emit('news', { hello: 'world' });
+  s = socket;
   socket.on('order', function (data) {
     // call twilio here
     console.log(data);
