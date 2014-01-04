@@ -1,8 +1,30 @@
 extends layout
 block content
     .row
-        h1 Confirmation Page
-        p You are being picked up from #{order.details.pickup.english}
-        p You are being dropped off at #{order.details.dropoff.english}
-        p YOu are being transported by taxi co #{order.taxi}
+        input(type="hidden", name="pickupLat", value="#{order.details.pickup.lat}")
+        input(type="hidden", name="pickupLng", value="#{order.details.pickup.lng}")
+        input(type="hidden", name="pickupEnglish", value="#{order.details.pickup.english}")
+        input(type="hidden", name="dropoffLat", value="#{order.details.dropoff.lat}")
+        input(type="hidden", name="dropoffLng", value="#{order.details.dropoff.lng}")
+        input(type="hidden", name="dropoffEnglish", value="#{order.details.dropoff.english}")
+        input(type="hidden", name="taxi", value="{order.taxi}")
 
+        img#loader(src="/images/loader.gif")
+        #details
+            h1 Confirmation Page
+            p You are being picked up from #{order.details.pickup.english}
+            p You are being dropped off at #{order.details.dropoff.english}
+
+        form
+            .row
+                .large-12.columns
+                    label Your name:
+                    input(type="text", placeholder="Name", name="customerName")
+                .large-12.columns
+                    label Time
+                    input#time(type="text", placeholder="ASAP", name="time")
+                .large-12.columns
+                    input#submitBooking(type="submit")
+    script(type="text/javascript", src="/socket.io/socket.io.js")
+    script(type="text/javascript", src="/javascripts/jquery.timepicker.js")
+    script(type="text/javascript", src="/javascripts/confirm.js")
