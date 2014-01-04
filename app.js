@@ -14,8 +14,6 @@ var express = require('express')
   , client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 
-var s;
-
 app.configure(function() {
     app.use(express.cookieParser('keyboard cat'));
     app.use(express.session({cookie : {maxAge: 60000}}));
@@ -49,25 +47,8 @@ app.post('/twiml.xml', function(req, res) {
     res.send(xml);
 });
 
-app.post('/voiceresponse', function(req, res) {
-    console.log('voice response')
-    console.log(req.body);
-    var accepted;
-    if(req.body.Digits === '1') {
-        accepted = true;
-    } else {
-        accepted = false;
-    }
 
-    s.emit('response', {accepted: accepted});
-});
-
-io.sockets.on('connection', function (socket) {
-  //socket.emit('news', { hello: 'world' });
-  s = socket;
-  socket.on('order', function (data) {
-    // call twilio here
-    console.log(data);
+app.post('/order', function(req, res) {
     client.makeCall({
         to: '+447731768522',
         from: '+441733514667',
@@ -76,10 +57,21 @@ io.sockets.on('connection', function (socket) {
         if(err) {
             throw err;
         }
+        app.post('/voiceresponse', function(request, response) {
+            console.log('voice response')
+            console.log(req.body);
+            var accepted;
+            if(request.body.Digits === '1') {
+                accepted = true;
+            } else {
+                accepted = false;
+            }
+            res.redirect('/accepted');
+        });
         //console.log(responseData);
     });
-  });
 });
+
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

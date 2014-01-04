@@ -2,20 +2,6 @@ $(document).ready(function() {
 
     $("#loader").hide();
 
-    var socket = io.connect('/');
-
-    socket.on('response', function(data) {
-        var element;
-        if(data.accepted) {
-            element = "<h1>accepted</h1>";
-        } else {
-            element = "<h1>declined</h1>";
-        }
-        $("#loader").hide();
-        $("#loader").prepend(element);
-    });
-
-
     $("#time").timepicker({'step': 15, 'forceRoundTime': true});
 
     $("#submitBooking").click(function(e) {
@@ -25,7 +11,7 @@ $(document).ready(function() {
         $("#loader").show();
 
 
-        socket.emit('order', {
+        $.post('/order', {
             pickup: {
                 lat: $("input[name='pickupLat']").val(),
                 lng: $("input[name='pickupLng']").val(),
@@ -39,7 +25,15 @@ $(document).ready(function() {
             name: $("input[name='customerName']").val(),
             time: $("input[name='time']").val(),
             taxi: $("input[name='taxi']").val()
-        });
-
+        }, function(data) {
+            var element;
+            if(data.accepted) {
+                element = "<h1>accepted</h1>";
+            } else {
+                element = "<h1>declined</h1>";
+            }
+            $("#loader").hide();
+            $("#loader").prepend(element);
+            });
     });
 });
