@@ -23,7 +23,7 @@ app.configure(function() {
 client.makeCall({
     to: '+447731768522',
     from: '+441733514667',
-    url: 'http://localhost:3000/twiml.xml'
+    url: '/twiml.xml'
 }, function(err, responseData) {
     if(err) {
         console.log(err)
