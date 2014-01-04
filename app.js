@@ -45,7 +45,7 @@ app.get('/confirm', routes.confirm);
 
 app.post('/twiml/', function(req, res) {
     var details = req.flash('details');
-
+    console.log(details);
     var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. You have been booked to pick up from' + details.pickup.english + ' and drop off at ' + details.dropoff.english + '. The customer wants picking up at ' + details.time + ' and is called ' + details.name + '. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
     res.send(xml);
 });
