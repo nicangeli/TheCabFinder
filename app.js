@@ -43,10 +43,7 @@ app.post('/finalize', routes.finalize);
 app.get('/confirm', routes.confirm);
 
 app.post('/twiml.xml', function(req, res) {
-    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response>
-    <Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST">
-        <Say voice="woman">This is an automated order from The Cab Finder. Press 1 to accept and 2 to decline.</Say>
-    </Gather></Response>';
+    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
     res.send(xml);
 });
 
