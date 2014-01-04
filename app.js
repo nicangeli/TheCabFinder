@@ -19,17 +19,6 @@ app.configure(function() {
     app.use(express.session({cookie : {maxAge: 60000}}));
     app.use(flash());
 });
-console.log('making call');
-client.makeCall({
-    to: '+447731768522',
-    from: '+441733514667',
-    url: 'http://thecabfinder.herokuapp.com/twiml.xml'
-}, function(err, responseData) {
-    if(err) {
-        console.log(err)
-    }
-    console.log(responseData);
-});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -54,8 +43,16 @@ app.post('/finalize', routes.finalize);
 app.get('/confirm', routes.confirm);
 
 app.post('/twiml.xml', function(req, res) {
-    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="woman">Please leave a message after the tone.</Say></Response>';
+    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response>
+    <Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST">
+        <Say voice="woman">This is an automated order from The Cab Finder. Press 1 to accept and 2 to decline.</Say>
+    </Gather></Response>';
     res.send(xml);
+});
+
+app.post('/voiceresponse', function(req, res) {
+    console.log('voice response')
+    console.log(req.body);
 });
 
 io.sockets.on('connection', function (socket) {
@@ -63,6 +60,16 @@ io.sockets.on('connection', function (socket) {
   socket.on('order', function (data) {
     // call twilio here
     console.log(data);
+    client.makeCall({
+        to: '+447731768522',
+        from: '+441733514667',
+        url: 'http://thecabfinder.herokuapp.com/twiml.xml'
+    }, function(err, responseData) {
+        if(err) {
+            console.log(err)
+        }
+        console.log(responseData);
+    });
 
     socket.emit('response', {accepted: true});
 
