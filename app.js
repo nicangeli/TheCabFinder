@@ -43,8 +43,13 @@ app.get('/results', routes.results);
 app.post('/finalize', routes.finalize);
 app.get('/confirm', routes.confirm);
 
-app.post('/twiml.xml', function(req, res) {
-    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
+app.post('/twiml/:pickup/:dropoff/:time/:name', function(req, res) {
+    var pickup = req.params.pickup,
+        dropoff = req.params.dropoff,
+        time = req.params.time,
+        name = req.params.name;
+
+    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. You have been booked to pick up from' + pickup + ' and drop off at ' + dropoff + '. The customer wants picking up at ' + time + ' and is called ' + name + '. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
     res.send(xml);
 });
 
@@ -63,10 +68,15 @@ app.post('/voiceresponse', function(req, res) {
 
 app.post('/order', function(req, res) {
     response = res;
+    var pickup = req.body.pickup.english,
+        dropoff = req.body.dropoff.english,
+        time = req.body.time,
+        name = req.body.name;
+
     client.makeCall({
         to: '+447731768522',
         from: '+441733514667',
-        url: 'http://thecabfinder.herokuapp.com/twiml.xml'
+        url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name
     }, function(err, responseData) {
         if(err) {
             throw err;
