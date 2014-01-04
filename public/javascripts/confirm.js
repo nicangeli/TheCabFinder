@@ -3,14 +3,16 @@ $(document).ready(function() {
     $("#loader").hide();
 
     var socket = io.connect('/');
-    socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('my other event', { my: 'data' });
-    });
 
     socket.on('response', function(data) {
-        console.log(data);
+        var element;
+        if(data.accepted) {
+            element = "<h1>accepted</h1>";
+        } else {
+            element = "<h1>declined</h1>";
+        }
         $("#loader").hide();
+        $("#loader").prepend(element);
     });
 
 

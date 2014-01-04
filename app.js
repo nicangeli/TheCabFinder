@@ -50,6 +50,13 @@ app.post('/twiml.xml', function(req, res) {
 app.post('/voiceresponse', function(req, res) {
     console.log('voice response')
     console.log(req.body);
+    var accepted;
+    if(req.body.Digits === '1') {
+        accepted = true;
+    } else {
+        accepted = false;
+    }
+    socket.emit('response', {accepted: accepted});
 });
 
 io.sockets.on('connection', function (socket) {
@@ -63,13 +70,10 @@ io.sockets.on('connection', function (socket) {
         url: 'http://thecabfinder.herokuapp.com/twiml.xml'
     }, function(err, responseData) {
         if(err) {
-            console.log(err)
+            throw err;
         }
-        console.log(responseData);
+        //console.log(responseData);
     });
-
-    socket.emit('response', {accepted: true});
-
   });
 });
 
