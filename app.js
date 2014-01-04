@@ -47,11 +47,11 @@ app.post('/twiml.xml', function(req, res) {
     res.send(xml);
 });
 
-app.post('/voiceresponse', function(request, response) {
+app.post('/voiceresponse', function(req, res) {
     console.log('voice response')
     console.log(req.body);
     var accepted;
-    if(request.body.Digits === '1') {
+    if(req.body.Digits === '1') {
         accepted = true;
     } else {
         accepted = false;
