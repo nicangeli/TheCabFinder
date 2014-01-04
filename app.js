@@ -43,13 +43,10 @@ app.get('/results', routes.results);
 app.post('/finalize', routes.finalize);
 app.get('/confirm', routes.confirm);
 
-app.post('/twiml/:pickup/:dropoff/:time/:name', function(req, res) {
-    var pickup = req.params.pickup,
-        dropoff = req.params.dropoff,
-        time = req.params.time,
-        name = req.params.name;
+app.post('/twiml/', function(req, res) {
+    var details = req.flash('details');
 
-    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. You have been booked to pick up from' + pickup + ' and drop off at ' + dropoff + '. The customer wants picking up at ' + time + ' and is called ' + name + '. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
+    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. You have been booked to pick up from' + details.pickup.english + ' and drop off at ' + details.dropoff.english + '. The customer wants picking up at ' + details.time + ' and is called ' + details.name + '. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
     res.send(xml);
 });
 
@@ -73,10 +70,12 @@ app.post('/order', function(req, res) {
         time = req.body.time,
         name = req.body.name;
 
+    req.flash('details', JSON.stringify(req.body));
+
     client.makeCall({
         to: '+447731768522',
         from: '+441733514667',
-        url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name
+        url: 'http://thecabfinder.herokuapp.com/twiml/'
     }, function(err, responseData) {
         if(err) {
             throw err;
