@@ -60,7 +60,7 @@ app.post('/voiceresponse', function(req, res) {
     response.redirect('/accepted');
     */
     console.log('responding to hallo');
-    res.redirect('/hallo');
+    res.redirect('http://thecabfinder.herokuapp.com/accept');
 });
 
 
