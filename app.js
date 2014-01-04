@@ -49,23 +49,24 @@ app.post('/twiml.xml', function(req, res) {
 });
 
 app.post('/voiceresponse', function(req, res) {
-    console.log('voice response');
-    console.log(res);
-    /*console.log('voice response')
-    console.log(req.body);
+    //console.log('voice response');
+    //console.log(res);
+    console.log('voice response')
+    //console.log(req.body);
     var accepted;
     if(req.body.Digits === '1') {
         accepted = true;
     } else {
         accepted = false;
     }
-    response.redirect('/accepted');
-    */
+    response.send({redirect: '/accepted'});
+    
     //res.redirect('http://thecabfinder.herokuapp.com/accept');
 });
 
 
 app.post('/order', function(req, res) {
+    response = res;
     console.log('/order')
     console.log(res);
     client.makeCall({

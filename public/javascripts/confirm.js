@@ -26,7 +26,7 @@ $(document).ready(function() {
             time: $("input[name='time']").val(),
             taxi: $("input[name='taxi']").val()
         }, function(data) {
-            var element;
+            /*var element;
             if(data.accepted) {
                 element = "<h1>accepted</h1>";
             } else {
@@ -34,6 +34,8 @@ $(document).ready(function() {
             }
             $("#loader").hide();
             $("#loader").prepend(element);
-            });
+            */
+            window.location = data.redirect;
+        });
     });
 });
