@@ -65,11 +65,12 @@ app.post('/voiceresponse', function(req, res) {
 
 app.post('/order', function(req, res) {
     response = res;
+    console.log('order');
     var pickup = req.body.pickup.english,
         dropoff = req.body.dropoff.english,
         time = req.body.time,
         name = req.body.name;
-
+    console.log(pickup);
     req.flash('details', JSON.stringify(req.body));
 
     client.makeCall({
