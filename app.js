@@ -93,7 +93,7 @@ io.sockets.on('connection', function(socket) {
         client.makeCall({
             to: '+7731768522',
             from: '+441733514667',
-            url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name
+            url: 'http://thecabfinder.herokuapp.com/twiml/' + data.pickup.english + '/' + data.dropoff.english + '/' + data.time + '/' + data.name
         }, function(err, responseData) {
         if(err) {
             console.log('error')
