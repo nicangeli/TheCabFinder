@@ -63,7 +63,7 @@ app.post('/voiceresponse', function(req, res) {
         accepted.redirect = '/declined';
     }
     //response.send(accepted);
-    ws.emit('response', {accepted});
+    ws.emit('response', accepted);
     
 });
 
