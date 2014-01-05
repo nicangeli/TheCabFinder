@@ -67,8 +67,6 @@ app.post('/voiceresponse', function(req, res) {
 
 
 app.post('/order', function(req, res) {
-    response = res;
-    console.log('order');
     var pickup = escape(req.body.pickup.english),
         dropoff = escape(req.body.dropoff.english),
         time = escape(req.body.time),
