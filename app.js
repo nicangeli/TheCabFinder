@@ -76,7 +76,8 @@ app.post('/order', function(req, res) {
         url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup
     }, function(err, responseData) {
         if(err) {
-            throw err;
+            console.log(error)
+            console.log(err);
         }
         response = res;
     });
