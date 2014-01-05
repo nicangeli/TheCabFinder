@@ -89,6 +89,10 @@ app.post('/order', function(req, res) {
 
 io.sockets.on('connection', function(socket) {
     ws = socket;
+    var pickup = escape(data.pickup.english),
+        dropoff = escape(data.dropoff.english),
+        time = escape(data.time),
+        name = escape(data.name);
     socket.on('order', function(data) {
         client.makeCall({
             to: '+447731768522',
