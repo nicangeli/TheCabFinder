@@ -2,6 +2,12 @@ $(document).ready(function() {
 
     $("#loader").hide();
 
+    var socket = io.connect('/');
+
+    socket.on('response', function(data) {
+        window.location = data.redirect;
+    });
+
     $("#time").timepicker({'step': 15, 'forceRoundTime': true});
 
     $("#submitBooking").click(function(e) {
@@ -10,6 +16,23 @@ $(document).ready(function() {
         $("#details").hide();
         $("#loader").show();
 
+        socket.emit('order',  {
+                pickup: {
+                    lat: $("input[name='pickupLat']").val(),
+                    lng: $("input[name='pickupLng']").val(),
+                    english: $("input[name='pickupEnglish']").val()
+                },
+                dropoff: {
+                    lat: $("input[name='dropoffLat']").val(),
+                    lng: $("input[name='dropoffLng']").val(),
+                    english: $("input[name='dropoffEnglish']").val()
+                },
+                name: $("input[name='customerName']").val(),
+                time: $("input[name='time']").val(),
+                taxi: $("input[name='taxi']").val()
+            });
+
+        /*
         $.ajax({
             url: '/order',
             type: 'POST',
@@ -61,6 +84,7 @@ $(document).ready(function() {
             
             window.location = data.redirect;
         });
+
 */
     });
 });

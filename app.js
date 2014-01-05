@@ -13,7 +13,8 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
-var response;
+var response,
+    ws;
 
 app.configure(function() {
     app.use(express.cookieParser('keyboard cat'));
@@ -61,7 +62,8 @@ app.post('/voiceresponse', function(req, res) {
     } else {
         accepted.redirect = '/declined';
     }
-    response.send(accepted);
+    //response.send(accepted);
+    ws.emit('response', {accepted});
     
 });
 
@@ -81,10 +83,24 @@ app.post('/order', function(req, res) {
             console.log('error')
             console.log(err);
         }
-        response = res;
+        //response = res;
     });
 });
 
+io.sockets.on('connection', function(socket) {
+    ws = socket;
+    socket.on('order', function(data) {
+        client.makeCall({
+            to: '+7731768522',
+            from: '+441733514667',
+            url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name
+        }, function(err, responseData) {
+        if(err) {
+            console.log('error')
+            console.log(err);
+        }
+    });
+});
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
