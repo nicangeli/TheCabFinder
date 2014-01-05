@@ -65,10 +65,10 @@ app.post('/voiceresponse', function(req, res) {
 app.post('/order', function(req, res) {
     response = res;
     console.log('order');
-    var pickup = req.body.pickup.english,
-        dropoff = req.body.dropoff.english,
-        time = req.body.time,
-        name = req.body.name;
+    var pickup = escape(req.body.pickup.english),
+        dropoff = escape(req.body.dropoff.english),
+        time = escape(req.body.time),
+        name = escape(req.body.name);
 
     client.makeCall({
         to: '+447731768522',
