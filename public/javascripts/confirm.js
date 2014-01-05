@@ -28,7 +28,7 @@ $(document).ready(function() {
                 time: $("input[name='time']").val(),
                 taxi: $("input[name='taxi']").val()
             },
-            timeout: 60000
+            timeout: 600000
         })
             .done(function(data) {
                 window.location = data.redirect;
