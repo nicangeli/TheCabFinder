@@ -72,9 +72,15 @@ app.post('/voiceresponse', function(req, res) {
     
 });
 
+app.post('/status', function(req, res) {
+    console.log('status');
+    console.log(req.body);
+})
+
 io.sockets.on('connection', function(socket) {
     ws = socket;
     socket.on('order', function(data) {
+        console.log('placing order');
         var pickup = escape(data.pickup.english),
             dropoff = escape(data.dropoff.english),
             time = escape(data.time),
@@ -84,12 +90,16 @@ io.sockets.on('connection', function(socket) {
         client.makeCall({
             to: '+447731768522',
             from: '+441733514667',
-            url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name + '/' + phoneNumber
+            url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name + '/' + phoneNumber,
+            StatusCallBack: 'http://thecabfinder.herokuapp.com/status',
+            StatusCallBackMethod: 'POST'
         }, function(err, responseData) {
         if(err) {
             console.log('error')
             console.log(err);
         }
+        //console.log(responseData);
+
         });
     });
 });
