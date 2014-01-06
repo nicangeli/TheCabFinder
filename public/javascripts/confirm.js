@@ -41,7 +41,7 @@ $(document).ready(function() {
             }
         );
 
-        setTimout(function() {
+        setTimeout(function() {
             if(!$("#accepted").visible() && !$("#declined").visible()) {
                 $("#declined").show();
             }
