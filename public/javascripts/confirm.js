@@ -45,6 +45,6 @@ $(document).ready(function() {
             if(!$("#accepted").is(':visible') && !$("#declined").is(':visible')) {
                 $("#declined").show();
             }
-        }, 1200000);
+        }, 120000);
     });
 });
