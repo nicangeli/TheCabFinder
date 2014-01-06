@@ -7,6 +7,7 @@ $(document).ready(function() {
     var socket = io.connect('/');
 
     socket.on('response', function(data) {
+        $("#loader").hide();
         if(data.accepted) {
             $("#accepted").show();
         } else {
