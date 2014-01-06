@@ -44,13 +44,18 @@ app.get('/results', routes.results);
 app.post('/finalize', routes.finalize);
 app.get('/confirm', routes.confirm);
 
-app.post('/twiml/:pickup/:dropoff/:time/:name', function(req, res) {
+app.post('/twiml/:pickup/:dropoff/:time/:name/:phoneNumber', function(req, res) {
     var pickup = req.params.pickup,
         dropoff = req.params.dropoff,
         time = req.params.time,
-        name = req.params.name;
+        name = req.params.name,
+        phoneNumber = req.params.phoneNumber;
 
-    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. You have been booked to pick up from ' + pickup + ' and drop off at ' + dropoff + '. The customer wants picking up at ' + time + ' and is called ' + name + ' Press 1 to accept and 2 to decline.</Say></Gather></Response>';
+    // split pickup and dropoff out into spaced out post codes to help with pronoucing them
+    pickup = pickup.split('').join(' ');
+    dropoff = dropoff.split('').join(' ');
+
+    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Gather timeout="10" finishOnKey="#" action="/voiceresponse" method="POST"><Say voice="woman">This is an automated order from The Cab Finder. You have been booked to pick up from ' + pickup + ' and drop off at ' + dropoff + '. The customer wants picking up at ' + time + ' and is called ' + name + '. The client is reachable on ' + phoneNumber + '. Press 1 to accept and 2 to decline.</Say></Gather></Response>';
     res.send(xml);
 });
 
@@ -58,33 +63,13 @@ app.post('/voiceresponse', function(req, res) {
 
     var accepted = {};
     if(req.body.Digits === '1') {
-        accepted.redirect = '/accepted';
+        accepted.accepted = true;
     } else {
-        accepted.redirect = '/declined';
+        accepted.accepted = false;
     }
     //response.send(accepted);
     ws.emit('response', accepted);
     
-});
-
-
-app.post('/order', function(req, res) {
-    var pickup = escape(req.body.pickup.english),
-        dropoff = escape(req.body.dropoff.english),
-        time = escape(req.body.time),
-        name = escape(req.body.name);
-
-    client.makeCall({
-        to: '+447731768522',
-        from: '+441733514667',
-        url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name
-    }, function(err, responseData) {
-        if(err) {
-            console.log('error')
-            console.log(err);
-        }
-        //response = res;
-    });
 });
 
 io.sockets.on('connection', function(socket) {
@@ -93,11 +78,13 @@ io.sockets.on('connection', function(socket) {
         var pickup = escape(data.pickup.english),
             dropoff = escape(data.dropoff.english),
             time = escape(data.time),
-            name = escape(data.name);
+            name = escape(data.name),
+            phoneNumber = escape(data.phoneNumber);
+
         client.makeCall({
             to: '+447731768522',
             from: '+441733514667',
-            url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name
+            url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name + '/' + phoneNumber
         }, function(err, responseData) {
         if(err) {
             console.log('error')

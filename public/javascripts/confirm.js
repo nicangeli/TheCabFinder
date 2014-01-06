@@ -1,11 +1,17 @@
 $(document).ready(function() {
 
     $("#loader").hide();
+    $("#accepted").hide();
+    $("#declined").hide();
 
     var socket = io.connect('/');
 
     socket.on('response', function(data) {
-        window.location = data.redirect;
+        if(data.accepted) {
+            $("#accepted").show();
+        } else {
+            $("#declined").show();
+        }
     });
 
     $("#time").timepicker({'step': 15, 'forceRoundTime': true});
@@ -29,62 +35,9 @@ $(document).ready(function() {
                 },
                 name: $("input[name='customerName']").val(),
                 time: $("input[name='time']").val(),
-                taxi: $("input[name='taxi']").val()
-            });
-
-        /*
-        $.ajax({
-            url: '/order',
-            type: 'POST',
-            data: {
-                pickup: {
-                    lat: $("input[name='pickupLat']").val(),
-                    lng: $("input[name='pickupLng']").val(),
-                    english: $("input[name='pickupEnglish']").val()
-                },
-                dropoff: {
-                    lat: $("input[name='dropoffLat']").val(),
-                    lng: $("input[name='dropoffLng']").val(),
-                    english: $("input[name='dropoffEnglish']").val()
-                },
-                name: $("input[name='customerName']").val(),
-                time: $("input[name='time']").val(),
-                taxi: $("input[name='taxi']").val()
-            },
-            timeout: 600000
-        })
-            .done(function(data) {
-                window.location = data.redirect;
-            });
-
-            /*
-        $.post('/order', {
-            pickup: {
-                lat: $("input[name='pickupLat']").val(),
-                lng: $("input[name='pickupLng']").val(),
-                english: $("input[name='pickupEnglish']").val()
-            },
-            dropoff: {
-                lat: $("input[name='dropoffLat']").val(),
-                lng: $("input[name='dropoffLng']").val(),
-                english: $("input[name='dropoffEnglish']").val()
-            },
-            name: $("input[name='customerName']").val(),
-            time: $("input[name='time']").val(),
-            taxi: $("input[name='taxi']").val()
-        }, function(data) {
-            /*var element;
-            if(data.accepted) {
-                element = "<h1>accepted</h1>";
-            } else {
-                element = "<h1>declined</h1>";
+                taxi: $("input[name='taxi']").val(),
+                phoneNumber: $("input[name='phoneNumber']").val()
             }
-            $("#loader").hide();
-            $("#loader").prepend(element);
-            
-            window.location = data.redirect;
-        });
-
-*/
+        );
     });
 });

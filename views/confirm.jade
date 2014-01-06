@@ -9,7 +9,17 @@ block content
         input(type="hidden", name="dropoffEnglish", value="#{order.details.dropoff.english}")
         input(type="hidden", name="taxi", value="{order.taxi}")
 
-        img#loader(src="/images/loader.gif")
+        #loader.row
+            .large-4.columns
+                img(src="/images/loader.gif")
+            .large-8.columns
+                p Please wait whilst The Cab Finder places the call to the cab finder. Live responses can take up to 2 minutes. Thank you for your patience. 
+        #accepted.row
+            .large-8.columns
+                p Congratulations. You're booking has been confirmed.
+        #accepted.row
+            .large-8.columns
+                p Oh no!. You're booking has been rejected by the taxi company. We're really sorry about this, why not try a different company.
         #details
             h1 Confirmation Page
             p You are being picked up from #{order.details.pickup.english}
@@ -24,7 +34,10 @@ block content
                     label Time
                     input#time(type="text", placeholder="ASAP", name="time")
                 .large-12.columns
-                    input#submitBooking(type="submit")
+                    label Phone Number
+                    input#phoneNumber(type="number", placeholder="07712 345 678", name="phoneNumber")
+                .large-12.columns
+                    input.button#submitBooking(type="submit")
     script(type="text/javascript", src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/javascripts/jquery.timepicker.js")
     script(type="text/javascript", src="/javascripts/confirm.js")
