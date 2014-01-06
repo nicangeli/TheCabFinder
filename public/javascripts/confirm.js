@@ -43,7 +43,7 @@ $(document).ready(function() {
 
         setTimout(function() {
             if(!$("#accepted").visible() && !$("#declined").visible()) {
-                $("#declined").show()''
+                $("#declined").show();
             }
         }, 1200000);
     });
