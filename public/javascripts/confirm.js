@@ -40,5 +40,11 @@ $(document).ready(function() {
                 phoneNumber: $("input[name='phoneNumber']").val()
             }
         );
+
+        setTimout(function() {
+            if(!$("#accepted").visible() && !$("#declined").visible()) {
+                $("#declined").show()''
+            }
+        }, 1200000);
     });
 });

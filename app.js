@@ -93,17 +93,16 @@ io.sockets.on('connection', function(socket) {
             url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name + '/' + phoneNumber,
             StatusCallBack: 'http://thecabfinder.herokuapp.com/status',
             StatusCallBackMethod: 'POST'
-        }).then(function(call) {
-            console.log('made call');
-        }, function(error) {  
-            console.log('error');
-        });
+        }, function(err, responseData) {
+        if(err) {
+            console.log('error')
+            console.log(err);
+        }
         //console.log(responseData);
 
+        });
     });
 });
-
-
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
