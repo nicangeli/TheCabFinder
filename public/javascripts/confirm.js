@@ -42,7 +42,7 @@ $(document).ready(function() {
         );
 
         setTimeout(function() {
-            if(!$("#accepted").visible() && !$("#declined").visible()) {
+            if(!$("#accepted").is(':visible') && !$("#declined").is(':visible')) {
                 $("#declined").show();
             }
         }, 1200000);
