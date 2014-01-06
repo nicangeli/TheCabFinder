@@ -87,22 +87,25 @@ io.sockets.on('connection', function(socket) {
             name = escape(data.name),
             phoneNumber = escape(data.phoneNumber);
 
-        client.makeCall({
+        promise = client.makeCall({
             to: '+447731768522',
             from: '+441733514667',
             url: 'http://thecabfinder.herokuapp.com/twiml/' + pickup + '/' + dropoff + '/' + time + '/' + name + '/' + phoneNumber,
             StatusCallBack: 'http://thecabfinder.herokuapp.com/status',
             StatusCallBackMethod: 'POST'
-        }, function(err, responseData) {
-        if(err) {
-            console.log('error')
-            console.log(err);
-        }
+        });
+
+        promise.then(function(call) {
+            console.log('Call success! Call SID: '+call.sid);
+        }, function(error) {
+            console.error('Call failed!  Reason: '+error.message);
+        });
         //console.log(responseData);
 
-        });
     });
 });
+
+
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
