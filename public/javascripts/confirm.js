@@ -43,6 +43,7 @@ $(document).ready(function() {
 
         setTimeout(function() {
             if(!$("#accepted").is(':visible') && !$("#declined").is(':visible')) {
+                $("#loader").hide();
                 $("#declined").show();
             }
         }, 120000);
