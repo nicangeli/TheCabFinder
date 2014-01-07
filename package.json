@@ -10,6 +10,7 @@
     "jade": "*",
     "connect-flash": "0.1.1",
     "socket.io": "0.9.16",
-    "twilio": "1.5.0"
+    "twilio": "1.5.0",
+    "kaiseki": "~0.5.3"
   }
 }
